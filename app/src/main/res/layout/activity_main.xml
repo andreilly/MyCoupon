@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -60,7 +62,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <ImageButton
-        android:id="@+id/addButton"
+        android:id="@+id/addCouponButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentRight="true"

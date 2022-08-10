@@ -23,9 +23,5 @@
         tools:context="com.mobdev.multifragment.MainActivity"
         tools:ignore="MergeRootFrame" >
     </FrameLayout>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
 </LinearLayout>

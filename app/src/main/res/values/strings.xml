@@ -6,4 +6,9 @@
     <string name="remove_element_message">Are you sure to delete the selected item ?</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
+    <string name="descrizione_coupon">Descrizione coupon</string>
+    <string name="nome_azienda">Nome azienda</string>
+    <string name="barcode">Barcode</string>
+    <string name="qr_code">QR Code</string>
+    <string name="scan">Scan</string>
 </resources>

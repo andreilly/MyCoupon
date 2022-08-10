@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ListActivity"
+    android:orientation="vertical"
+    android:background="@color/material_dynamic_neutral_variant90">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/addCouponToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:title="Aggiungi coupon">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right">
+
+            <ImageButton
+                android:id="@+id/btnAddCoupon"
+                android:layout_width="63dp"
+                android:layout_height="30dp"
+                android:background="@color/blue_grey_300"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/plus"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/material_dynamic_neutral_variant90"
+
+        tools:context=".activity.AddCouponActivity">
+
+        <EditText
+            android:id="@+id/txtDescription"
+            android:layout_width="301dp"
+            android:layout_height="48dp"
+            android:autofillHints=""
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:hint="@string/descrizione_coupon"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHint="#616161"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.148" />
+
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="301dp"
+            android:layout_height="48dp"
+            android:autofillHints=""
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:hint="@string/nome_azienda"
+            android:inputType="textPersonName"
+
+            android:textColor="@color/black"
+            android:textColorHint="#616161"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.025" />
+
+        <EditText
+            android:id="@+id/txtCode"
+            android:layout_width="220dp"
+            android:layout_height="48dp"
+            android:autofillHints=""
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:hint="Codice"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHint="#616161"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.287"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.39" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="259dp"
+            android:layout_height="34dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.26999998">
+
+            <RadioButton
+                android:id="@+id/rbBarcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#000000"
+                android:minHeight="33dp"
+                android:text="@string/barcode"
+                android:textColor="#000000"
+                android:textSize="22dp" />
+
+            <RadioButton
+                android:id="@+id/rbQRCode"
+                android:layout_width="126dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:buttonTint="#000000"
+                android:minHeight="33dp"
+                android:text="@string/qr_code"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scan"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.89"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.39" />
+
+        <CalendarView
+            android:id="@+id/txtDate"
+            android:layout_width="364dp"
+            android:layout_height="295dp"
+            android:dateTextAppearance="@style/CalenderViewWeekCustomText"
+            android:theme="@style/CalenderViewCustom"
+            android:weekDayTextAppearance="@style/CalenderViewDateCustomText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.87" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

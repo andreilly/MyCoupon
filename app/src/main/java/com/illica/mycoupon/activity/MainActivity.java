@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.illica.mycoupon.R;
 
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     static final String TypeList = "TypeList";
     private Button buttonActiveList = null;
     private Button buttonExpiredList = null;
-
+    private ImageButton addCouponButton = null;
     private Context context = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Set Activity Context
         this.context = this.getApplicationContext();
-
         //Init UI Component
         initUI();
 
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private void initUI(){
         this.buttonActiveList = this.findViewById(R.id.activeCoupon);
         this.buttonExpiredList = this.findViewById(R.id.expiredCoupon);
+        this.addCouponButton = this.findViewById(R.id.addCouponButton);
         this.buttonActiveList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent newIntent = new Intent(new Intent(context,ListActivity.class));
                 newIntent.putExtras(bundle);
                 startActivity(newIntent);
+            }
+        });
+        this.addCouponButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, AddCouponActivity.class));
             }
         });
     }
