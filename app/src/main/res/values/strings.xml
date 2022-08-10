@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyCoupon</string>
+    <string name="mycoupon">MyCoupon</string>
+    <string name="coupon_scaduti">Coupon scaduti</string>
+    <string name="coupon_attivi">Coupon attivi</string>
+    <string name="remove_element_message">Are you sure to delete the selected item ?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+</resources>
