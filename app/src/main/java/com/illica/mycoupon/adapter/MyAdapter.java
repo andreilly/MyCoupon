@@ -2,6 +2,7 @@ package com.illica.mycoupon.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -104,7 +105,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 		// - get element from your dataset at this position
 		// - replace the contents of the view with that element
 		holder.setText("["+mDataset.get(position).getCompanyName()+"]: "+mDataset.get(position).getExpiryDate());
-
 	}
 
 	// Return the size of your dataset (invoked by the layout manager)

@@ -3,13 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/circle.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1125" />
-        <entry key="app/src/main/res/layout/activity_add_coupon.xml" value="0.10891265869140626" />
+        <entry key="app/src/main/res/drawable/layout_bg.xml" value="0.268" />
+        <entry key="app/src/main/res/layout/activity_add_coupon.xml" value="0.19587402343749996" />
         <entry key="app/src/main/res/layout/activity_list.xml" value="0.12129629629629629" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/history_fragment.xml" value="0.12360688956433637" />
-        <entry key="app/src/main/res/layout/listview_element.xml" value="0.12360688956433637" />
+        <entry key="app/src/main/res/layout/layout_bg.xml" value="0.2595108695652174" />
+        <entry key="app/src/main/res/layout/listview_element.xml" value="0.391180419921875" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>

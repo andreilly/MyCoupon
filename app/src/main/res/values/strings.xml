@@ -11,4 +11,8 @@
     <string name="barcode">Barcode</string>
     <string name="qr_code">QR Code</string>
     <string name="scan">Scan</string>
+    <string name="msg_errore_parametri">È necessario inserire i parametri richiesti</string>
+    <string name="title_error">Errore</string>
+    <string name="information">Informazione</string>
+    <string name="coupon_aggiunto">Il coupon è stato aggiunto con successo</string>
 </resources>

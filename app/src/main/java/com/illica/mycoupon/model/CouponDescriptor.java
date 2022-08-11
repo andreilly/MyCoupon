@@ -30,18 +30,30 @@ public class CouponDescriptor {
     private Integer couponType;
 
     @ColumnInfo(name = "expiryDate")
-    private Date expiryDate;
+    private String expiryDate;
+
+    @ColumnInfo(name = "format")
+    private String format;
+
+    @ColumnInfo(name = "isUsed")
+    private Boolean isUsed;
+
+    @ColumnInfo (name = "reusable")
+    private Boolean reusable;
 
 
     public CouponDescriptor(){
     }
-    public CouponDescriptor(String companyName, String description, CouponType couponType, String code, Date expiryDate){
+    public CouponDescriptor(String companyName, String description, CouponType couponType, String code, String expiryDate, String format, Boolean reusable){
         super();
         this.companyName = companyName;
         this.code = code;
         this.couponType = couponType.ordinal();
         this.expiryDate = expiryDate;
         this.description = description;
+        this.reusable = reusable;
+        this.format = format;
+        this.isUsed = false;
 
     }
 
@@ -85,16 +97,16 @@ public class CouponDescriptor {
         this.couponType = couponType;
     }
 
-    public Date getExpiryDate() {
+    public String getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
     @Override
     public String toString() {
-        return "Company name: "+companyName+" Description: "+ description+" Type:"+CouponType.values()[couponType]+" Code:"+code+" Data:"+expiryDate.toString();
+        return "Company name: "+companyName+" Description: "+ description+" Type:"+CouponType.values()[couponType]+" Code:"+code+" Date:"+expiryDate.toString() + " Format: " + format + " isReusable: " + reusable.toString();
     }
     @Override
     public boolean equals(Object o) {
@@ -103,5 +115,29 @@ public class CouponDescriptor {
             return true;
         else
             return false;
+    }
+
+    public Boolean getReusable() {
+        return reusable;
+    }
+
+    public void setReusable(Boolean reusable) {
+        this.reusable = reusable;
+    }
+
+    public Boolean getUsed() {
+        return isUsed;
+    }
+
+    public void setUsed(Boolean used) {
+        isUsed = used;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 }

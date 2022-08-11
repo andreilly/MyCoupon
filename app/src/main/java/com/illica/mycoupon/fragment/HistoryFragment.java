@@ -74,15 +74,6 @@ public  class HistoryFragment extends Fragment {
 		mAdapter  = new MyAdapter(mContext);
 		mRecyclerView.setAdapter(mAdapter);
 
-		addButton  = (ImageButton)rootView.findViewById(R.id.addButton);
-		addButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Log.d("","Add Button CLicked !");
-				couponDescriptorManager.addCouponToHead(createRandomCouponDescriptor());
-			}
-		});
 	}
 
 	private void observeLogData(){
@@ -106,9 +97,6 @@ public  class HistoryFragment extends Fragment {
 			mLayoutManager.scrollToPosition(scrollPosition);
 	}
 	
-	public static CouponDescriptor createRandomCouponDescriptor() {
 
-	return new CouponDescriptor("Conad","coupon preso al conad", CouponType.QRCode,"BJOOO", new Date());
-	}
 
 }

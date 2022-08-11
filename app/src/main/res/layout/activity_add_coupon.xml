@@ -86,7 +86,7 @@
             android:autofillHints=""
             android:backgroundTint="#000000"
             android:ems="10"
-            android:hint="Codice"
+            android:hint="Codice coupon"
             android:inputType="textPersonName"
             android:textColor="@color/black"
             android:textColorHint="#616161"
@@ -116,7 +116,8 @@
                 android:minHeight="33dp"
                 android:text="@string/barcode"
                 android:textColor="#000000"
-                android:textSize="22dp" />
+                android:textSize="22dp"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <RadioButton
                 android:id="@+id/rbQRCode"
@@ -144,16 +145,44 @@
 
         <CalendarView
             android:id="@+id/txtDate"
-            android:layout_width="364dp"
-            android:layout_height="295dp"
+            android:layout_width="336dp"
+            android:layout_height="287dp"
             android:dateTextAppearance="@style/CalenderViewWeekCustomText"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
             android:theme="@style/CalenderViewCustom"
             android:weekDayTextAppearance="@style/CalenderViewDateCustomText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.87" />
+            app:layout_constraintVertical_bias="0.88" />
+
+        <Switch
+            android:id="@+id/switchDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data scadenza"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
