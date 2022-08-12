@@ -2,19 +2,26 @@ package com.illica.mycoupon.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 import com.illica.mycoupon.R;
 import com.illica.mycoupon.model.CouponDescriptor;
 import com.illica.mycoupon.persistence.CouponDescriptorManager;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +59,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 		public void setText(String text){
 			TextView tView = (TextView)v.findViewById(R.id.myTextView);
 			tView.setText(text);
+		}
+		public void setImage(Bitmap bitmap){
+			ImageView image = v.findViewById(R.id.couponImageList);
+			image.setImageBitmap(bitmap);
 		}
 	}
 
@@ -105,6 +116,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 		// - get element from your dataset at this position
 		// - replace the contents of the view with that element
 		holder.setText("["+mDataset.get(position).getCompanyName()+"]: "+mDataset.get(position).getExpiryDate());
+		MultiFormatWriter writer = new MultiFormatWriter();
+		try{
+			//Initialize bit matrix
+			BitMatrix matrix = writer.encode(mDataset.get(position).getCode(), BarcodeFormat.valueOf(mDataset.get(position).getFormat()), 80, 80);
+			//Initialize barcode encoder
+			BarcodeEncoder encoder = new BarcodeEncoder();
+			//Initialize Bitmap
+			Bitmap bitmap = encoder.createBitmap(matrix);
+			holder.setImage(bitmap);
+
+		}catch (WriterException e){
+			e.printStackTrace();
+		}
+
 	}
 
 	// Return the size of your dataset (invoked by the layout manager)
