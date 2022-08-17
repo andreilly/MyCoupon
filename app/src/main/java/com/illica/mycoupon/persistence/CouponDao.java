@@ -24,3 +24,4 @@ public interface CouponDao {
     @Query("SELECT * FROM coupons ORDER BY id DESC")
     List<CouponDescriptor> getAll();
 }
+

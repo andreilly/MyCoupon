@@ -7,7 +7,9 @@ import androidx.room.Room;
 
 import com.illica.mycoupon.model.CouponDescriptor;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class CouponDescriptorManager {
@@ -49,5 +51,6 @@ public class CouponDescriptorManager {
     public LiveData<List<CouponDescriptor>> getCouponLiveDataList(){
         return this.couponDao.getActiveLiveData();
     }
+
 
 }

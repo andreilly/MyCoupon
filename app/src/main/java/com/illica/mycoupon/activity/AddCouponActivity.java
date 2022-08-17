@@ -115,7 +115,20 @@ public class AddCouponActivity extends AppCompatActivity {
                 {
                     getDataFromView();
                     couponDescriptorManager.addCouponToHead(createNewCoupon());
-                    Alert.showInformation(AddCouponActivity.this,getString(R.string.information),getString(R.string.coupon_aggiunto) );
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddCouponActivity.this);
+                    builder.setTitle(R.string.information);
+                    builder.setMessage(R.string.coupon_aggiunto);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            startActivity(new Intent(context, MainActivity.class));
+                        }
+                    });
+
+                    builder.create().show();
+
+
+
 
                 }
 

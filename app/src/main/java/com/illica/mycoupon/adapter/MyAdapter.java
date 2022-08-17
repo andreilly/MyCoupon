@@ -3,6 +3,7 @@ package com.illica.mycoupon.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,26 +15,20 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 import com.illica.mycoupon.R;
+import com.illica.mycoupon.definition.CouponType;
 import com.illica.mycoupon.model.CouponDescriptor;
 import com.illica.mycoupon.persistence.CouponDescriptorManager;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Marco Picone (picone.m@gmail.com) 20/03/2020
- * Recycler View Adapter for Log Data Structure
- */
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 	private List<CouponDescriptor> mDataset;
 	private Context mContext = null;
+
+
 
 	// Provide a reference to the views for each data item
 	// Complex data items may need more than one view per item, and
@@ -56,13 +51,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 			});
 		}
 
-		public void setText(String text){
-			TextView tView = (TextView)v.findViewById(R.id.myTextView);
+		public void setTextCompanyName(String text){
+			TextView tView = (TextView)v.findViewById(R.id.companyName);
 			tView.setText(text);
 		}
-		public void setImage(Bitmap bitmap){
+		public void setCouponTypeImage(Bitmap bitmap){
 			ImageView image = v.findViewById(R.id.couponImageList);
 			image.setImageBitmap(bitmap);
+		}
+		public void setCouponTypeImage(Drawable draw){
+			ImageView image = v.findViewById(R.id.couponImageList);
+			image.setImageDrawable(draw);
+
+		}
+		public void setReusableImage(Drawable drawable){
+			ImageView image = v.findViewById(R.id.visible);
+			image.setImageDrawable(drawable);
+		}
+		public void setExpirationDateText(String date){
+			TextView tView = (TextView)v.findViewById(R.id.expiringDate);
+			tView.setText(date);
 		}
 	}
 
@@ -115,19 +123,29 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 	public void onBindViewHolder(ViewHolder holder, final int position) {
 		// - get element from your dataset at this position
 		// - replace the contents of the view with that element
-		holder.setText("["+mDataset.get(position).getCompanyName()+"]: "+mDataset.get(position).getExpiryDate());
-		MultiFormatWriter writer = new MultiFormatWriter();
-		try{
-			//Initialize bit matrix
-			BitMatrix matrix = writer.encode(mDataset.get(position).getCode(), BarcodeFormat.valueOf(mDataset.get(position).getFormat()), 80, 80);
-			//Initialize barcode encoder
-			BarcodeEncoder encoder = new BarcodeEncoder();
-			//Initialize Bitmap
-			Bitmap bitmap = encoder.createBitmap(matrix);
-			holder.setImage(bitmap);
+		CouponDescriptor element;
+		element = mDataset.get(position);
+		Log.d("",element.toString());
 
-		}catch (WriterException e){
-			e.printStackTrace();
+		holder.setTextCompanyName(element.getCompanyName());
+		holder.setExpirationDateText(element.getExpiryDate());
+
+		// Coupon type image
+		if(element.getCouponType() == CouponType.QRCode.ordinal()){
+			Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.qrcode_img);
+			holder.setCouponTypeImage(myDrawable);
+		}else if(element.getCouponType() == CouponType.Barcode.ordinal()){
+			Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.barcode_img);
+			holder.setCouponTypeImage(myDrawable);
+		}
+
+		//Coupon reusable image
+		if(element.getReusable() == true){
+			//Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.);
+			//holder.setCouponTypeImage(myDrawable);
+		}else if(element.getReusable() == false){
+			Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.x_img);
+			holder.setReusableImage(myDrawable);
 		}
 
 	}
@@ -144,5 +162,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 	public void setDataset(List<CouponDescriptor> mDataset) {
 		this.mDataset = mDataset;
+	}
+	public void filterList(String text, List<CouponDescriptor> backupList){
+		List<CouponDescriptor> filteredList = new ArrayList<>();
+		for(CouponDescriptor cd : backupList){
+			if(cd.getCompanyName().toLowerCase().contains(text.toLowerCase())){
+				filteredList.add(cd);
+			}
+		}
+		this.setDataset(filteredList);
+		notifyDataSetChanged();
 	}
 }

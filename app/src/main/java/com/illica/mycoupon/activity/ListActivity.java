@@ -2,10 +2,15 @@ package com.illica.mycoupon.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.illica.mycoupon.R;
 import com.illica.mycoupon.fragment.HistoryFragment;
@@ -13,6 +18,7 @@ import com.illica.mycoupon.fragment.HistoryFragment;
 public class ListActivity extends AppCompatActivity {
     private Context mContext = null;
 
+    SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +40,9 @@ public class ListActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().add(R.id.container, new HistoryFragment()).commit();
         }
 
+    }
+
+    private void filterList(String text) {
 
     }
 }
