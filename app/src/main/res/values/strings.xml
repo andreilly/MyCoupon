@@ -15,4 +15,5 @@
     <string name="title_error">Errore</string>
     <string name="information">Informazione</string>
     <string name="coupon_aggiunto">Il coupon è stato aggiunto con successo</string>
+    <string name="coupon_detail">Dettaglio coupon</string>
 </resources>

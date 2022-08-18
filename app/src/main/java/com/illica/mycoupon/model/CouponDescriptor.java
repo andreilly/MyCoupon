@@ -7,11 +7,12 @@ import androidx.room.PrimaryKey;
 
 import com.illica.mycoupon.definition.CouponType;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 @Entity(tableName = "coupons")
-public class CouponDescriptor {
+public class CouponDescriptor implements Serializable {
 
 
     @PrimaryKey(autoGenerate = true)

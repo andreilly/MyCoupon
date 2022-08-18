@@ -2,8 +2,10 @@ package com.illica.mycoupon.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.illica.mycoupon.Listener.ItemClickListener;
 import com.illica.mycoupon.R;
+import com.illica.mycoupon.activity.DetailActivity;
+import com.illica.mycoupon.activity.ListActivity;
 import com.illica.mycoupon.definition.CouponType;
 import com.illica.mycoupon.model.CouponDescriptor;
 import com.illica.mycoupon.persistence.CouponDescriptorManager;
@@ -33,14 +38,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 	// Provide a reference to the views for each data item
 	// Complex data items may need more than one view per item, and
 	// you provide access to all the views for a data item in a view holder
-	public class ViewHolder extends RecyclerView.ViewHolder {
+	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 		private View v = null;
-
+		private ItemClickListener itemClickListener;
 		public ViewHolder(View v) {
 			super(v);
 			this.v = v;
-
+			v.setOnClickListener(this);
 			v.setOnLongClickListener(new OnLongClickListener() {
 
 				@Override
@@ -71,6 +76,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 		public void setExpirationDateText(String date){
 			TextView tView = (TextView)v.findViewById(R.id.expiringDate);
 			tView.setText(date);
+		}
+
+		@Override
+		public void onClick(View v) {
+			this.itemClickListener.onItemClick(v,getLayoutPosition());
+		}
+		public void setItemClickListener(ItemClickListener ic){
+			this.itemClickListener = ic;
 		}
 	}
 
@@ -147,6 +160,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 			Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.x_img);
 			holder.setReusableImage(myDrawable);
 		}
+
+
+
+		holder.setItemClickListener(new ItemClickListener() {
+			@Override
+			public void onItemClick(View v, int pos) {
+
+				Intent i = new Intent(mContext, DetailActivity.class);
+				i.putExtra(ListActivity.CouponObject,mDataset.get(pos));
+				i.putExtra(ListActivity.Position,pos);
+				mContext.startActivity(i);
+			}
+		});
 
 	}
 

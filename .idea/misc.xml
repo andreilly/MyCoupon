@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/drawable/qrcode_icon.xml" value="0.261" />
         <entry key="app/src/main/res/drawable/search_view_bg.xml" value="0.1215" />
         <entry key="app/src/main/res/layout/activity_add_coupon.xml" value="0.19587402343749996" />
+        <entry key="app/src/main/res/layout/activity_detail.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/history_fragment.xml" value="0.1" />

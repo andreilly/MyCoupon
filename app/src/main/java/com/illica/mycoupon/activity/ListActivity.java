@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.illica.mycoupon.R;
@@ -19,6 +21,8 @@ public class ListActivity extends AppCompatActivity {
     private Context mContext = null;
 
     SearchView searchView;
+    public static final String CouponObject = "CouponObject";
+    public static final String Position = "Position";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +46,17 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
-    private void filterList(String text) {
 
+    /*
+     Method that allow user to hide keyboard when click outside the TextField
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.dispatchTouchEvent(ev);
     }
+
 }
