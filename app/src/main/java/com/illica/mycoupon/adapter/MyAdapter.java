@@ -21,6 +21,7 @@ import com.illica.mycoupon.Listener.ItemClickListener;
 import com.illica.mycoupon.R;
 import com.illica.mycoupon.activity.DetailActivity;
 import com.illica.mycoupon.activity.ListActivity;
+import com.illica.mycoupon.activity.MainActivity;
 import com.illica.mycoupon.definition.CouponType;
 import com.illica.mycoupon.model.CouponDescriptor;
 import com.illica.mycoupon.persistence.CouponDescriptorManager;
@@ -32,6 +33,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 	private List<CouponDescriptor> mDataset;
 	private Context mContext = null;
+	private ListActivity activityParent;
 
 
 
@@ -115,12 +117,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 	// Provide a suitable constructor (depends on the kind of dataset)
 	public MyAdapter(Context context) {
 		mDataset = new ArrayList<>();
-		mContext  = context;
+		mContext = context;
 	}
 
 	// Create new views (invoked by the layout manager)
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType) {
+
 
 		// create a new view
 		View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_element, parent, false);
@@ -138,10 +141,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 		// - replace the contents of the view with that element
 		CouponDescriptor element;
 		element = mDataset.get(position);
-		Log.d("",element.toString());
 
 		holder.setTextCompanyName(element.getCompanyName());
-		if(element.getExpiryDate() == ""){
+		String datee = element.getExpiryDate();
+
+		if(element.getExpiryDate().equals("")){
 			holder.setExpirationDateText("-");
 		}else
 		{
@@ -173,9 +177,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 			public void onItemClick(View v, int pos) {
 
 				Intent i = new Intent(mContext, DetailActivity.class);
+				i.putExtra(MainActivity.TypeList, MainActivity.Active_Coupon);
 				i.putExtra(ListActivity.CouponObject,mDataset.get(pos));
 				i.putExtra(ListActivity.Position,pos);
 				mContext.startActivity(i);
+
 			}
 		});
 

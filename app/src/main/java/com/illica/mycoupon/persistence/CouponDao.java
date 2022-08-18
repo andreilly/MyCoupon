@@ -15,6 +15,9 @@ public interface CouponDao {
     @Query("SELECT * FROM coupons WHERE expiryDate >= date('now') or expiryDate like '' ORDER BY expiryDate DESC")
     LiveData<List<CouponDescriptor>> getActiveLiveData();
 
+    @Query("SELECT * FROM coupons WHERE expiryDate < date('now') and expiryDate != '' ORDER BY expiryDate DESC")
+    LiveData<List<CouponDescriptor>> getExpiringLiveData();
+
     @Insert
     void insertAll(CouponDescriptor... coupons);
 

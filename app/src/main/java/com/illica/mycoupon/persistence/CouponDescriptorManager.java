@@ -48,9 +48,11 @@ public class CouponDescriptorManager {
         this.couponDao.delete(coupon);
     }
     public List<CouponDescriptor> getCouponList(){ return this.couponDao.getAll(); }
-    public LiveData<List<CouponDescriptor>> getCouponLiveDataList(){
+    public LiveData<List<CouponDescriptor>> getActiveCouponLiveDataList(){
         return this.couponDao.getActiveLiveData();
     }
-
+    public LiveData<List<CouponDescriptor>> getExpiringCouponLiveDataList(){
+        return this.couponDao.getExpiringLiveData();
+    }
 
 }

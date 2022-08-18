@@ -14,20 +14,27 @@ import com.illica.mycoupon.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    static final String Active_Coupon ="Coupon attivi";
-    static final String Expired_Coupon ="Coupon utilizzati";
-    static final String TypeList = "TypeList";
+
+    public static final String Active_Coupon ="Coupon attivi";
+    public static final String Expired_Coupon ="Coupon utilizzati";
+    public static final String TypeList = "TypeList";
+
+    //region Variable declaration
     private Button buttonActiveList = null;
     private Button buttonExpiredList = null;
     private ImageButton addCouponButton = null;
     private Context context = null;
+    //endregion
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //Set Activity Context
+
         this.context = this.getApplicationContext();
+
         //Init UI Component
         initUI();
 
@@ -37,26 +44,39 @@ public class MainActivity extends AppCompatActivity {
         this.buttonActiveList = this.findViewById(R.id.activeCoupon);
         this.buttonExpiredList = this.findViewById(R.id.expiredCoupon);
         this.addCouponButton = this.findViewById(R.id.addCouponButton);
+        /*
+         Handle listener for buttonActiveList
+         */
         this.buttonActiveList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                  Bundle bundle = new Bundle();
+                 // put TypList in the bundle to indicate which coupon list to manage
                  bundle.putString(TypeList,Active_Coupon);
                  Intent newIntent = new Intent(new Intent(context,ListActivity.class));
                  newIntent.putExtras(bundle);
+                 // Start new activity
                  startActivity(newIntent);
             }
         });
+        /*
+         Handle listener for buttonExpiredList
+         */
         this.buttonExpiredList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString(TypeList,Active_Coupon);
+                // put TypList in the bundle to indicate which coupon list to manage
+                bundle.putString(TypeList,Expired_Coupon);
                 Intent newIntent = new Intent(new Intent(context,ListActivity.class));
                 newIntent.putExtras(bundle);
+                // Start new activity
                 startActivity(newIntent);
             }
         });
+        /*
+         Handle listener for addCouponButton
+         */
         this.addCouponButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

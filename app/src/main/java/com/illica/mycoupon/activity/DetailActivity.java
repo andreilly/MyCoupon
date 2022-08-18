@@ -8,11 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -20,24 +19,19 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.illica.mycoupon.Other.Utils;
 import com.illica.mycoupon.R;
-import com.illica.mycoupon.adapter.MyAdapter;
 import com.illica.mycoupon.definition.CouponType;
-import com.illica.mycoupon.fragment.HistoryFragment;
 import com.illica.mycoupon.model.CouponDescriptor;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
-import com.journeyapps.barcodescanner.Util;
-
-import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
     boolean isImageFitToScreen;
-
+    private String typeList;
     ImageView imgCode;
     TextView lbName;
     TextView lbCode;
     TextView lbDescription;
     TextView lbDate;
-
+    ImageView imageReusable;
 
     CouponDescriptor cp;
     private String TAG = "Detail_Activity";
@@ -75,6 +69,12 @@ public class DetailActivity extends AppCompatActivity {
         }else{
             lbDate.setText(cp.getExpiryDate());
         }
+        if(cp.getReusable()==true){
+            imageReusable.setImageResource(R.drawable.check_img);
+
+        }else{
+            imageReusable.setImageResource(R.drawable.x_img);
+        }
 
     }
     private void initToolbar(){
@@ -84,13 +84,28 @@ public class DetailActivity extends AppCompatActivity {
         if(actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString(MainActivity.TypeList,typeList);
+                Intent newIntent = new Intent(new Intent(mContext,ListActivity.class));
+                newIntent.putExtras(bundle);
+                startActivity(newIntent);
+                overridePendingTransition(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right);
+
+            }
+        });
         // Set title of actionBar
         actionBar.setTitle(R.string.coupon_detail);
+
     }
+
     private void receiveData(){
         Intent i=getIntent();
         cp = (CouponDescriptor) i.getExtras().getSerializable(ListActivity.CouponObject);
         Integer pos = i.getExtras().getInt(ListActivity.Position);
+        typeList = i.getExtras().getString(MainActivity.TypeList);
 
     }
     private void initUI(){
@@ -100,6 +115,8 @@ public class DetailActivity extends AppCompatActivity {
         lbDescription = this.findViewById(R.id.lbDescription);
         lbName = this.findViewById(R.id.lbName);
         lbDate = this.findViewById(R.id.lbDate);
+        imageReusable = this.findViewById(R.id.imageReusable);
+
 
     }
     private void handleEncodingCode(){

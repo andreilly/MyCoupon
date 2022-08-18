@@ -61,7 +61,7 @@ public class AddCouponActivity extends AppCompatActivity {
     private Switch switchDate = null;
     private CheckBox reusable = null;
 
-    // Variables used to save inserted data from user
+    //region Variables used to save inserted data from user
     private String companyName = null;
     private String description = null;
     private CouponType type = null;
@@ -70,7 +70,7 @@ public class AddCouponActivity extends AppCompatActivity {
     private String expiredDate = null;
     private String formatCoupon = null;
     private Boolean isReusable = false;
-
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,21 +81,27 @@ public class AddCouponActivity extends AppCompatActivity {
         this.couponDescriptorManager = couponDescriptorManager.getInstance(mContext);
 
 
+        //Init Toolbar
+        initToolbar();
+
+        //Set Activity Context
+        this.context = this.getApplicationContext();
+
+        //Init UI Component
+        initUI();
+    }
+
+    private void initToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.addCouponToolBar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        //Set Activity Context
-        this.context = this.getApplicationContext();
-        //Init UI Component
-        initUI();
     }
-
     private void initUI() {
-        // Initialize component of the view
+
+        //region Initialize component of the view
         btnAddCoupon = this.findViewById(R.id.btnAddCoupon);
         btnScan = this.findViewById(R.id.btnScan);
         txtCode = this.findViewById(R.id.txtCode);
@@ -107,6 +113,7 @@ public class AddCouponActivity extends AppCompatActivity {
         switchDate = this.findViewById(R.id.switchDate);
         reusable = this.findViewById(R.id.reusable);
         cwDate.setVisibility(View.INVISIBLE);
+        //endregion
 
         // Add coupon button listener
         this.btnAddCoupon.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +131,7 @@ public class AddCouponActivity extends AppCompatActivity {
                     // Create and Add new coupon
                     couponDescriptorManager.addCouponToHead(createNewCoupon());
 
-                    //Show message
+                    //region Show message and return on MainActivity
                     AlertDialog.Builder builder = new AlertDialog.Builder(AddCouponActivity.this);
                     builder.setTitle(R.string.information);
                     builder.setMessage(R.string.coupon_aggiunto);
@@ -135,15 +142,11 @@ public class AddCouponActivity extends AppCompatActivity {
                         }
                     });
                     builder.create().show();
-
-
-
-
+                    //endregion
                 }
-
             }
-
         });
+
         // Add scan button listener
         this.btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +189,6 @@ public class AddCouponActivity extends AppCompatActivity {
         if (result.getContents() != null) {
             txtCode.setText(result.getContents());
             formatCoupon = result.getFormatName();
-
         }
     });
 
@@ -201,11 +203,16 @@ public class AddCouponActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(ev);
     }
+    /*
+    Return true if date is checked, false otherwise
+     */
     private boolean enterExpiredDate(){
        return  switchDate.isChecked() == true ? true : false ;
     }
 
-
+    /*
+     Return CouponType
+     */
     private CouponType getTypeCoupon(){
         if(rbBarcode.isChecked() == true)
         {
@@ -216,6 +223,10 @@ public class AddCouponActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    /*
+     Check if any required parameters are missing
+     */
     private boolean invalidInsertion(){
        if (Utils.isEmptyEditText(txtName) || Utils.isEmptyEditText(txtCode) || getTypeCoupon() == null){
             return true;
@@ -224,6 +235,10 @@ public class AddCouponActivity extends AppCompatActivity {
            return false;
        }
     }
+
+    /*
+     Get data from view
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void getDataFromView(){
 
@@ -242,6 +257,9 @@ public class AddCouponActivity extends AppCompatActivity {
 
         }
     }
+    /*
+    Method that allow to create a new coupon
+     */
     private CouponDescriptor createNewCoupon(){
         return new CouponDescriptor(this.companyName,this.description,this.type,this.code,this.expiredDate,this.formatCoupon,isReusable);
     }

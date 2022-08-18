@@ -6,20 +6,19 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.illica.mycoupon.R;
-import com.illica.mycoupon.fragment.HistoryFragment;
+import com.illica.mycoupon.fragment.ActiveListFragment;
 
 public class ListActivity extends AppCompatActivity {
+    private ActionBar actionBar;
     private Context mContext = null;
-
+    private String typeView;
     SearchView searchView;
     public static final String CouponObject = "CouponObject";
     public static final String Position = "Position";
@@ -27,23 +26,51 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
         this.mContext = this;
+
+        //Init toolbar
+        initToolbar();
+
+
         if (savedInstanceState == null) {
             //Get Bundle
             Bundle bundle = this.getIntent().getExtras();
             if (bundle != null){
-                actionBar.setTitle(bundle.getString(MainActivity.TypeList));
+                typeView = bundle.getString(MainActivity.TypeList);
+                //Set title of the actionBar
+                actionBar.setTitle(typeView);
             }
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new HistoryFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new ActiveListFragment()).commit();
         }
 
+    }
+    /*
+     Init toolbar
+     */
+    private void initToolbar(){
+        Toolbar toolbar = (Toolbar)findViewById(R.id.my_awesome_toolbar);
+        setSupportActionBar(toolbar);
+         actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent newIntent = new Intent(new Intent(mContext,MainActivity.class));
+                startActivity(newIntent);
+                overridePendingTransition(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right);
+
+            }
+        });
+    }
+
+    /*
+     Getter for typeView
+     */
+    public String getTypeView(){
+        return typeView;
     }
 
 

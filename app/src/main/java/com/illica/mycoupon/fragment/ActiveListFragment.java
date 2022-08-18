@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
@@ -16,21 +15,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.illica.mycoupon.R;
+import com.illica.mycoupon.activity.ListActivity;
+import com.illica.mycoupon.activity.MainActivity;
 import com.illica.mycoupon.adapter.MyAdapter;
-import com.illica.mycoupon.definition.CouponType;
 import com.illica.mycoupon.model.CouponDescriptor;
 import com.illica.mycoupon.persistence.CouponDescriptorManager;
 
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 
-public  class HistoryFragment extends Fragment {
+public  class ActiveListFragment extends Fragment {
 
-	private static final String TAG = "HistoryFragment";
+	private ListActivity activityParent;
+	private static final String TAG = "ActiveListFragment";
 	private RecyclerView mRecyclerView = null;
 	private LinearLayoutManager mLayoutManager = null;
 	private MyAdapter mAdapter = null;
@@ -47,8 +45,13 @@ public  class HistoryFragment extends Fragment {
 		this.mContext = getContext();
 		this.couponDescriptorManager = couponDescriptorManager.getInstance(mContext);
 
+		activityParent = (ListActivity) getActivity();
 		init(rootView);
-		observeLogData();
+		if(activityParent.getTypeView().equals(MainActivity.Active_Coupon)){
+			observeLogDataActive();
+		}else if(activityParent.getTypeView().equals(MainActivity.Expired_Coupon)){
+			observeLogDataExpire();
+		}
 
 		return rootView;
 	}
@@ -94,8 +97,22 @@ public  class HistoryFragment extends Fragment {
 		mAdapter.filterList(newText,backupList);
 	}
 
-	private void observeLogData(){
-		this.couponDescriptorManager.getCouponLiveDataList().observe(getViewLifecycleOwner(), new Observer<List<CouponDescriptor>>() {
+	private void observeLogDataActive(){
+			this.couponDescriptorManager.getActiveCouponLiveDataList().observe(getViewLifecycleOwner(), new Observer<List<CouponDescriptor>>() {
+				@Override
+				public void onChanged(List<CouponDescriptor> logDescriptors) {
+					if(logDescriptors != null){
+						Log.d(TAG, "Update Log List Received ! List Size: " + logDescriptors.size());
+						refreshRecyclerView(logDescriptors, 0);
+						backupList = logDescriptors;
+					}
+					else
+						Log.e(TAG, "Error observing Log List ! Received a null Object !");
+				}
+			});
+	}
+	private void observeLogDataExpire(){
+		this.couponDescriptorManager.getExpiringCouponLiveDataList().observe(getViewLifecycleOwner(), new Observer<List<CouponDescriptor>>() {
 			@Override
 			public void onChanged(List<CouponDescriptor> logDescriptors) {
 				if(logDescriptors != null){
