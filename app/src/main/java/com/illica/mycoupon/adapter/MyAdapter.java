@@ -141,7 +141,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 		Log.d("",element.toString());
 
 		holder.setTextCompanyName(element.getCompanyName());
-		holder.setExpirationDateText(element.getExpiryDate());
+		if(element.getExpiryDate() == ""){
+			holder.setExpirationDateText("-");
+		}else
+		{
+			holder.setExpirationDateText(element.getExpiryDate());
+		}
 
 		// Coupon type image
 		if(element.getCouponType() == CouponType.QRCode.ordinal()){
@@ -154,8 +159,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 		//Coupon reusable image
 		if(element.getReusable() == true){
-			//Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.);
-			//holder.setCouponTypeImage(myDrawable);
+			Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.check_img);
+			holder.setReusableImage(myDrawable);
 		}else if(element.getReusable() == false){
 			Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.x_img);
 			holder.setReusableImage(myDrawable);

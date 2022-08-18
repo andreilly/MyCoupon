@@ -12,7 +12,7 @@ import java.util.List;
 
 @Dao
 public interface CouponDao {
-    @Query("SELECT * FROM coupons WHERE expiryDate <= date('now') ORDER BY expiryDate DESC")
+    @Query("SELECT * FROM coupons WHERE expiryDate >= date('now') or expiryDate like '' ORDER BY expiryDate DESC")
     LiveData<List<CouponDescriptor>> getActiveLiveData();
 
     @Insert

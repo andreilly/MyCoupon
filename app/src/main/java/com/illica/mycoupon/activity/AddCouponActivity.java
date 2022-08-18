@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -58,17 +59,19 @@ public class AddCouponActivity extends AppCompatActivity {
     private RadioButton rbQRCode = null;
     private RadioButton rbBarcode = null;
     private Switch switchDate = null;
-    private String formatCoupon = null;
+    private CheckBox reusable = null;
 
     // Variables used to save inserted data from user
-    String companyName = null;
+    private String companyName = null;
     private String description = null;
     private CouponType type = null;
     private String code = null;
     private LocalDate insertedDate = null;
     private String expiredDate = null;
-
+    private String formatCoupon = null;
     private Boolean isReusable = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +105,7 @@ public class AddCouponActivity extends AppCompatActivity {
         rbQRCode = this.findViewById(R.id.rbQRCode);
         rbBarcode = this.findViewById(R.id.rbBarcode);
         switchDate = this.findViewById(R.id.switchDate);
+        reusable = this.findViewById(R.id.reusable);
         cwDate.setVisibility(View.INVISIBLE);
 
         // Add coupon button listener
@@ -109,12 +113,18 @@ public class AddCouponActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
+                // If invalid insertion -> show error message
                 if(invalidInsertion()) {
                     Alert.showInformation(AddCouponActivity.this, getString(R.string.title_error), getString(R.string.msg_errore_parametri));
                 }else
                 {
+                    //Get value from view
                     getDataFromView();
+
+                    // Create and Add new coupon
                     couponDescriptorManager.addCouponToHead(createNewCoupon());
+
+                    //Show message
                     AlertDialog.Builder builder = new AlertDialog.Builder(AddCouponActivity.this);
                     builder.setTitle(R.string.information);
                     builder.setMessage(R.string.coupon_aggiunto);
@@ -124,7 +134,6 @@ public class AddCouponActivity extends AppCompatActivity {
                             startActivity(new Intent(context, MainActivity.class));
                         }
                     });
-
                     builder.create().show();
 
 
@@ -148,6 +157,7 @@ public class AddCouponActivity extends AppCompatActivity {
             }
         });
 
+        //Listener for date
         switchDate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked == true) {
@@ -157,6 +167,7 @@ public class AddCouponActivity extends AppCompatActivity {
                 }
             }
         });
+        //Listener for calendar view
         cwDate.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -194,6 +205,7 @@ public class AddCouponActivity extends AppCompatActivity {
        return  switchDate.isChecked() == true ? true : false ;
     }
 
+
     private CouponType getTypeCoupon(){
         if(rbBarcode.isChecked() == true)
         {
@@ -205,7 +217,7 @@ public class AddCouponActivity extends AppCompatActivity {
         }
     }
     private boolean invalidInsertion(){
-       if (Utils.isEmptyEditText(txtName) || Utils.isEmptyEditText(txtCode) || getTypeCoupon() == null ){
+       if (Utils.isEmptyEditText(txtName) || Utils.isEmptyEditText(txtCode) || getTypeCoupon() == null){
             return true;
         }
        else {
@@ -219,15 +231,19 @@ public class AddCouponActivity extends AppCompatActivity {
         this.description = txtDescription.getText().toString();
         this.type = getTypeCoupon();
         this.code = txtCode.getText().toString();
+        if(reusable.isChecked()){
+            isReusable = true;
+        }
         if(!enterExpiredDate()){
             this.expiredDate = "";
         }else
         {
             this.expiredDate = Utils.convertInITAFormat(insertedDate);
+
         }
     }
     private CouponDescriptor createNewCoupon(){
-        return new CouponDescriptor(this.companyName,this.description,this.type,this.code,this.expiredDate,this.formatCoupon,false);
+        return new CouponDescriptor(this.companyName,this.description,this.type,this.code,this.expiredDate,this.formatCoupon,isReusable);
     }
 
 }

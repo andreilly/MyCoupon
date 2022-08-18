@@ -59,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.148" />
+            app:layout_constraintVertical_bias="0.120000005" />
 
         <EditText
             android:id="@+id/txtName"
@@ -95,7 +95,7 @@
             app:layout_constraintHorizontal_bias="0.287"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.39" />
+            app:layout_constraintVertical_bias="0.32" />
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -106,7 +106,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26999998">
+            app:layout_constraintVertical_bias="0.22000003">
 
             <RadioButton
                 android:id="@+id/rbBarcode"
@@ -116,7 +116,7 @@
                 android:minHeight="33dp"
                 android:text="@string/barcode"
                 android:textColor="#000000"
-                android:textSize="22dp"
+                android:textSize="20dp"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <RadioButton
@@ -128,7 +128,8 @@
                 android:minHeight="33dp"
                 android:text="@string/qr_code"
                 android:textColor="#000000"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                tools:ignore="TouchTargetSizeCheck" />
         </RadioGroup>
 
         <Button
@@ -138,10 +139,10 @@
             android:text="@string/scan"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.89"
+            app:layout_constraintHorizontal_bias="0.882"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.39" />
+            app:layout_constraintVertical_bias="0.303" />
 
         <CalendarView
             android:id="@+id/txtDate"
@@ -169,7 +170,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.85"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.52" />
 
         <TextView
             android:id="@+id/textView2"
@@ -182,7 +184,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.52" />
+
+        <CheckBox
+            android:id="@+id/reusable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#000000"
+            android:shadowColor="#FFFFFF"
+            android:text="Riutilizzabile"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.42000002"
+            tools:ignore="TouchTargetSizeCheck" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
