@@ -7,6 +7,12 @@ import androidx.appcompat.app.AlertDialog;
 
 public class Alert {
 
+    /**
+     * Show alert dialog
+     * @param context Context
+     * @param title   Title of the message
+     * @param msg     Message
+     */
     public static void showInformation(Context context, String title, String msg){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);

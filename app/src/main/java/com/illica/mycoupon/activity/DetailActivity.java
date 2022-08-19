@@ -1,5 +1,6 @@
 package com.illica.mycoupon.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -7,8 +8,11 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,33 +25,41 @@ import com.illica.mycoupon.Other.Utils;
 import com.illica.mycoupon.R;
 import com.illica.mycoupon.definition.CouponType;
 import com.illica.mycoupon.model.CouponDescriptor;
+import com.illica.mycoupon.persistence.CouponDescriptorManager;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.time.LocalDate;
+
 public class DetailActivity extends AppCompatActivity {
-    boolean isImageFitToScreen;
+    private CouponDescriptorManager couponDescriptorManager = null;
+    private Context mContext = null;
+
+
     private String typeList;
+    Button btnUsed;
     ImageView imgCode;
     TextView lbName;
     TextView lbCode;
     TextView lbDescription;
     TextView lbDate;
     ImageView imageReusable;
-
     CouponDescriptor cp;
-    private String TAG = "Detail_Activity";
-    private Context mContext = null;
+    Integer pos = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         this.mContext = this;
+        this.couponDescriptorManager = couponDescriptorManager.getInstance(mContext);
+
+        //Receive data
+        receiveData();
 
         //Init toolbar
         initToolbar();
 
-        //Receive data
-        receiveData();
 
         // Initialize UI
         initUI();
@@ -57,24 +69,30 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void loadUI(){
 
         // Method that allows you to manage and view the encoding of the coupon
         handleEncodingCode();
         lbName.setText(cp.getCompanyName());
-        lbDescription.setText(cp.getDescription());
-        lbCode.setText(cp.getCode());
-        if(cp.getExpiryDate() == ""){
-            lbDate.setText("-");
-        }else{
-            lbDate.setText(cp.getExpiryDate());
-        }
-        if(cp.getReusable()==true){
-            imageReusable.setImageResource(R.drawable.check_img);
+        if(cp.getDescription().equals(""))
+            lbDescription.setText("-");
+        else
+            lbDescription.setText(cp.getDescription());
 
-        }else{
-            imageReusable.setImageResource(R.drawable.x_img);
+        lbCode.setText(cp.getCode());
+
+        if(cp.getExpiryDate().equals(""))
+            lbDate.setText("-");
+        else{
+            LocalDate dateLocal = LocalDate.parse(cp.getExpiryDate());
+            lbDate.setText(Utils.convertInITAFormat(dateLocal));
         }
+
+        if(cp.getReusable()==true)
+            imageReusable.setImageResource(R.drawable.check_img);
+        else
+            imageReusable.setImageResource(R.drawable.x_img);
 
     }
     private void initToolbar(){
@@ -89,6 +107,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString(MainActivity.TypeList,typeList);
+                bundle.putInt(ListActivity.Position,pos);
                 Intent newIntent = new Intent(new Intent(mContext,ListActivity.class));
                 newIntent.putExtras(bundle);
                 startActivity(newIntent);
@@ -104,7 +123,7 @@ public class DetailActivity extends AppCompatActivity {
     private void receiveData(){
         Intent i=getIntent();
         cp = (CouponDescriptor) i.getExtras().getSerializable(ListActivity.CouponObject);
-        Integer pos = i.getExtras().getInt(ListActivity.Position);
+        pos = i.getExtras().getInt(ListActivity.Position);
         typeList = i.getExtras().getString(MainActivity.TypeList);
 
     }
@@ -116,8 +135,21 @@ public class DetailActivity extends AppCompatActivity {
         lbName = this.findViewById(R.id.lbName);
         lbDate = this.findViewById(R.id.lbDate);
         imageReusable = this.findViewById(R.id.imageReusable);
+        btnUsed = this.findViewById(R.id.btnUsed);
 
+        if(!typeList.equals(MainActivity.Active_Coupon)){
+            btnUsed.setVisibility(View.INVISIBLE);
+        }
 
+        btnUsed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                couponDescriptorManager.updateUsed(cp.getId());
+
+                Toast.makeText(mContext, "Coupon contrassegnato con successo",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void handleEncodingCode(){
         String format;
@@ -130,7 +162,12 @@ public class DetailActivity extends AppCompatActivity {
                     imgCode.setImageResource(R.drawable.no_qrcode);
 
                 }else{
-                    encodingCoupon(cp.getCode(),format,400,400,false);
+                    encodingCoupon(code,format,400,400,false);
+                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imgCode.getLayoutParams();
+                    layoutParams.bottomMargin = 50;
+                    layoutParams.topMargin = 50;
+
+                    imgCode.setLayoutParams(layoutParams);
                 }
             }else if(cp.getCouponType() == CouponType.Barcode.ordinal()) {
                 if (cp.getFormat() == null) {

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,10 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.illica.mycoupon.Listener.ItemClickListener;
+import com.illica.mycoupon.Other.Utils;
 import com.illica.mycoupon.R;
 import com.illica.mycoupon.activity.DetailActivity;
 import com.illica.mycoupon.activity.ListActivity;
@@ -26,6 +29,7 @@ import com.illica.mycoupon.definition.CouponType;
 import com.illica.mycoupon.model.CouponDescriptor;
 import com.illica.mycoupon.persistence.CouponDescriptorManager;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +38,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 	private List<CouponDescriptor> mDataset;
 	private Context mContext = null;
 	private ListActivity activityParent;
+	private String TypeList;
+	private Integer Pos;
 
 
 
@@ -75,9 +81,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 			ImageView image = v.findViewById(R.id.visible);
 			image.setImageDrawable(drawable);
 		}
+		@RequiresApi(api = Build.VERSION_CODES.O)
 		public void setExpirationDateText(String date){
 			TextView tView = (TextView)v.findViewById(R.id.expiringDate);
-			tView.setText(date);
+
+			if(date != "-"){
+				LocalDate dateLocal = LocalDate.parse(date);
+				tView.setText(Utils.convertInITAFormat(dateLocal));
+			}
+			else{
+				tView.setText(date);
+
+			}
+
+		}
+		public void setDescription(String description){
+			TextView tView = (TextView) v.findViewById(R.id.description);
+			tView.setText(description);
 		}
 
 		@Override
@@ -115,9 +135,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 	}
 
 	// Provide a suitable constructor (depends on the kind of dataset)
-	public MyAdapter(Context context) {
+	public MyAdapter(Context context, String typeList) {
 		mDataset = new ArrayList<>();
 		mContext = context;
+		TypeList = typeList;
 	}
 
 	// Create new views (invoked by the layout manager)
@@ -135,6 +156,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 	}
 
 	// Replace the contents of a view (invoked by the layout manager)
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	@Override
 	public void onBindViewHolder(ViewHolder holder, final int position) {
 		// - get element from your dataset at this position
@@ -142,24 +164,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 		CouponDescriptor element;
 		element = mDataset.get(position);
 
-		holder.setTextCompanyName(element.getCompanyName());
 		String datee = element.getExpiryDate();
 
-		if(element.getExpiryDate().equals("")){
-			holder.setExpirationDateText("-");
-		}else
-		{
-			holder.setExpirationDateText(element.getExpiryDate());
-		}
+		popoluteElement(holder,element);
 
-		// Coupon type image
-		if(element.getCouponType() == CouponType.QRCode.ordinal()){
-			Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.qrcode_img);
-			holder.setCouponTypeImage(myDrawable);
-		}else if(element.getCouponType() == CouponType.Barcode.ordinal()){
-			Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.barcode_img);
-			holder.setCouponTypeImage(myDrawable);
-		}
+
 
 		//Coupon reusable image
 		if(element.getReusable() == true){
@@ -172,12 +181,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 
 
+
 		holder.setItemClickListener(new ItemClickListener() {
 			@Override
 			public void onItemClick(View v, int pos) {
 
 				Intent i = new Intent(mContext, DetailActivity.class);
-				i.putExtra(MainActivity.TypeList, MainActivity.Active_Coupon);
+				i.putExtra(MainActivity.TypeList, TypeList);
 				i.putExtra(ListActivity.CouponObject,mDataset.get(pos));
 				i.putExtra(ListActivity.Position,pos);
 				mContext.startActivity(i);
@@ -210,4 +220,38 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 		this.setDataset(filteredList);
 		notifyDataSetChanged();
 	}
+
+	@RequiresApi(api = Build.VERSION_CODES.O)
+	public void popoluteElement(ViewHolder holder, CouponDescriptor element)
+	{
+		// Company name
+		holder.setTextCompanyName(element.getCompanyName());
+
+		// Coupon type image
+		if(element.getCouponType() == CouponType.QRCode.ordinal()){
+			Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.qrcode_img);
+			holder.setCouponTypeImage(myDrawable);
+		}else if(element.getCouponType() == CouponType.Barcode.ordinal()){
+			Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.barcode_img);
+			holder.setCouponTypeImage(myDrawable);
+		}
+
+		// Description
+		if(element.getDescription().equals("")){
+			holder.setDescription("-");
+		}else{
+			holder.setDescription(element.getDescription());
+		}
+
+		// Date
+		if(element.getExpiryDate().equals("")){
+			holder.setExpirationDateText("-");
+		}else
+		{
+			holder.setExpirationDateText(element.getExpiryDate());
+		}
+
+
+	}
+
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.ListActivity"
     android:orientation="vertical"
-    android:background="@color/material_dynamic_neutral_variant90">
+    android:background="@drawable/bg_detail">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_awesome_toolbar"

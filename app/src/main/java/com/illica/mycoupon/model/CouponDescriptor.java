@@ -1,6 +1,5 @@
 package com.illica.mycoupon.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -8,7 +7,6 @@ import androidx.room.PrimaryKey;
 import com.illica.mycoupon.definition.CouponType;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 @Entity(tableName = "coupons")
@@ -43,8 +41,22 @@ public class CouponDescriptor implements Serializable {
     private Boolean reusable;
 
 
+    /**
+     * Empty constructor
+     */
     public CouponDescriptor(){
     }
+
+    /**
+     * Constructor for CouponDescriptor
+     * @param companyName companyName
+     * @param description description
+     * @param couponType  Type of coupon
+     * @param code        Code
+     * @param expiryDate  Expiration date
+     * @param format      Format of code
+     * @param reusable    Reusable
+     */
     public CouponDescriptor(String companyName, String description, CouponType couponType, String code, String expiryDate, String format, Boolean reusable){
         super();
         this.companyName = companyName;
@@ -57,6 +69,7 @@ public class CouponDescriptor implements Serializable {
         this.isUsed = false;
 
     }
+
 
     public int getId() {
         return id;
@@ -105,18 +118,6 @@ public class CouponDescriptor implements Serializable {
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
-    @Override
-    public String toString() {
-        return "Company name: "+companyName+" Description: "+ description+" Type:"+CouponType.values()[couponType]+" Code:"+code+" Date:"+expiryDate.toString() + " Format: " + format + " isReusable: " + reusable.toString();
-    }
-    @Override
-    public boolean equals(Object o) {
-        CouponDescriptor couponObj = (CouponDescriptor) o;
-        if((couponObj.code == this.code) && (couponObj.expiryDate.compareTo(this.expiryDate))==0 && (couponObj.companyName == this.companyName ))
-            return true;
-        else
-            return false;
-    }
 
     public Boolean getReusable() {
         return reusable;
@@ -140,5 +141,15 @@ public class CouponDescriptor implements Serializable {
 
     public void setFormat(String format) {
         this.format = format;
+    }
+
+    @Override
+    public String toString() {
+        return "Company name: "+companyName+" Description: "+ description+" Type:"+CouponType.values()[couponType]+" Code:"+code+" Date:"+expiryDate.toString() + " Format: " + format + " isReusable: " + reusable.toString();
+    }
+    @Override
+    public boolean equals(Object o) {
+        CouponDescriptor couponObj = (CouponDescriptor) o;
+        return (couponObj.code.equals(this.code)) && (couponObj.expiryDate.compareTo(this.expiryDate)) == 0 && (couponObj.companyName.equals(this.companyName));
     }
 }

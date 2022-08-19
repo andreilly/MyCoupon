@@ -25,7 +25,7 @@ import com.illica.mycoupon.persistence.CouponDescriptorManager;
 import java.util.List;
 
 
-public  class ActiveListFragment extends Fragment {
+public  class ListCouponsFragment extends Fragment {
 
 	private ListActivity activityParent;
 	private static final String TAG = "ActiveListFragment";
@@ -46,12 +46,15 @@ public  class ActiveListFragment extends Fragment {
 		this.couponDescriptorManager = couponDescriptorManager.getInstance(mContext);
 
 		activityParent = (ListActivity) getActivity();
-		init(rootView);
 		if(activityParent.getTypeView().equals(MainActivity.Active_Coupon)){
 			observeLogDataActive();
 		}else if(activityParent.getTypeView().equals(MainActivity.Expired_Coupon)){
 			observeLogDataExpire();
+		}else if(activityParent.getTypeView().equals(MainActivity.Used_Coupon)){
+			observeLogDataUsed();
 		}
+
+		init(rootView);
 
 		return rootView;
 	}
@@ -63,7 +66,6 @@ public  class ActiveListFragment extends Fragment {
 		// use a linear layout manager
 		mLayoutManager  = new LinearLayoutManager(getActivity());
 		mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-		mLayoutManager.scrollToPosition(0);
 
 		mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -72,8 +74,9 @@ public  class ActiveListFragment extends Fragment {
 		mRecyclerView.setHasFixedSize(true);
 
 		// specify an adapter (see also next example)
-		mAdapter  = new MyAdapter(mContext);
+		mAdapter  = new MyAdapter(mContext, activityParent.getTypeView());
 		mRecyclerView.setAdapter(mAdapter);
+		mRecyclerView.smoothScrollToPosition(activityParent.getPos());
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String newText) {
@@ -126,10 +129,25 @@ public  class ActiveListFragment extends Fragment {
 		});
 	}
 
+	private void observeLogDataUsed(){
+		this.couponDescriptorManager.getUsedCouponLiveDataList().observe(getViewLifecycleOwner(), new Observer<List<CouponDescriptor>>() {
+			@Override
+			public void onChanged(List<CouponDescriptor> logDescriptors) {
+				if(logDescriptors != null){
+					Log.d(TAG, "Update Log List Received ! List Size: " + logDescriptors.size());
+					refreshRecyclerView(logDescriptors, 0);
+					backupList = logDescriptors;
+				}
+				else
+					Log.e(TAG, "Error observing Log List ! Received a null Object !");
+			}
+		});
+	}
+
 	private void refreshRecyclerView(List<CouponDescriptor> updatedList, int scrollPosition){
 		mAdapter.setDataset(updatedList);
 		mAdapter.notifyDataSetChanged();
-		if(scrollPosition >= 0)
+		if(scrollPosition > 0)
 			mLayoutManager.scrollToPosition(scrollPosition);
 	}
 	

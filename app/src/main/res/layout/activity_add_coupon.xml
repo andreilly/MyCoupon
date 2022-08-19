@@ -50,7 +50,7 @@
             android:layout_height="48dp"
             android:autofillHints=""
             android:backgroundTint="#000000"
-            android:ems="10"
+            android:ems="50"
             android:hint="@string/descrizione_coupon"
             android:inputType="textPersonName"
             android:textColor="@color/black"

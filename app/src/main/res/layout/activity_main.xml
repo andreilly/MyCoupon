@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:background="@color/material_dynamic_neutral_variant90"
+    android:background="@drawable/bg_detail"
     android:orientation="horizontal"
     tools:context=".activity.MainActivity">
 
@@ -18,22 +18,39 @@
         android:backgroundTint="@color/material_dynamic_neutral80"
         android:text="@string/coupon_attivi"
         android:textColor="@color/grey_black_1000"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39" />
 
     <Button
         android:id="@+id/expiredCoupon"
         android:layout_width="180dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="180dp"
         android:backgroundTint="@color/material_dynamic_neutral80"
         android:text="@string/coupon_scaduti"
         android:textColor="@color/grey_black_1000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6" />
+
+    <Button
+        android:id="@+id/couponUsed"
+        android:layout_width="180dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/material_dynamic_neutral80"
+        android:text="@string/coupon_utilizzati"
+        android:textColor="@color/grey_black_1000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
 
     <TextView
         android:id="@+id/textView"
@@ -45,21 +62,12 @@
         android:textColor="#000000"
         android:textSize="45sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/activeCoupon"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35000002" />
+        app:layout_constraintVertical_bias="0.13999999" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="313dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintGuide_percent="0.5" />
 
     <ImageButton
         android:id="@+id/addCouponButton"
@@ -78,4 +86,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.972"
         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

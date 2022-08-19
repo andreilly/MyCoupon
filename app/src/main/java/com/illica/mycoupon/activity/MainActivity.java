@@ -16,12 +16,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     public static final String Active_Coupon ="Coupon attivi";
-    public static final String Expired_Coupon ="Coupon utilizzati";
+    public static final String Expired_Coupon ="Coupon scaduti";
+    public static final String Used_Coupon ="Coupon utilizzati";
+
     public static final String TypeList = "TypeList";
 
     //region Variable declaration
-    private Button buttonActiveList = null;
-    private Button buttonExpiredList = null;
+    private Button buttonActiveList;
+    private Button buttonExpiredList;
+    private Button buttonUsedList;
+
     private ImageButton addCouponButton = null;
     private Context context = null;
     //endregion
@@ -43,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private void initUI(){
         this.buttonActiveList = this.findViewById(R.id.activeCoupon);
         this.buttonExpiredList = this.findViewById(R.id.expiredCoupon);
+        this.buttonUsedList = this.findViewById(R.id.couponUsed);
         this.addCouponButton = this.findViewById(R.id.addCouponButton);
+
         /*
          Handle listener for buttonActiveList
          */
@@ -68,6 +74,21 @@ public class MainActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 // put TypList in the bundle to indicate which coupon list to manage
                 bundle.putString(TypeList,Expired_Coupon);
+                Intent newIntent = new Intent(new Intent(context,ListActivity.class));
+                newIntent.putExtras(bundle);
+                // Start new activity
+                startActivity(newIntent);
+            }
+        });
+        /*
+         Handle listener for button
+         */
+        this.buttonUsedList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                // put TypList in the bundle to indicate which coupon list to manage
+                bundle.putString(TypeList,Used_Coupon);
                 Intent newIntent = new Intent(new Intent(context,ListActivity.class));
                 newIntent.putExtras(bundle);
                 // Start new activity

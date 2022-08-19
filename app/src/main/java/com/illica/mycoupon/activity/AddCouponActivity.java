@@ -1,13 +1,13 @@
 package com.illica.mycoupon.activity;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -25,10 +27,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.illica.mycoupon.Other.Alert;
 import com.illica.mycoupon.Other.Utils;
 import com.illica.mycoupon.R;
@@ -38,28 +37,25 @@ import com.illica.mycoupon.model.CouponDescriptor;
 import com.illica.mycoupon.persistence.CouponDescriptorManager;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class AddCouponActivity extends AppCompatActivity {
 
     private CouponDescriptorManager couponDescriptorManager = null;
     private Context mContext = null;
+    Animation scaleUp, scaleDown;
 
-
-    private Context context = null;
-    private ImageButton btnAddCoupon = null;
-    private Button btnScan = null;
-    private EditText txtDescription = null;
-    private EditText txtName = null;
-    private EditText txtCode = null;
-    private CalendarView cwDate = null;
-    private RadioButton rbQRCode = null;
-    private RadioButton rbBarcode = null;
-    private Switch switchDate = null;
-    private CheckBox reusable = null;
+    private Context context;
+    private ImageButton btnAddCoupon;
+    private Button btnScan;
+    private EditText txtDescription;
+    private EditText txtName;
+    private EditText txtCode;
+    private CalendarView cwDate;
+    private RadioButton rbQRCode;
+    private RadioButton rbBarcode;
+    private Switch switchDate;
+    private CheckBox reusable;
 
     //region Variables used to save inserted data from user
     private String companyName = null;
@@ -75,11 +71,13 @@ public class AddCouponActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_coupon);
-
+        setContentView(R.layout.test);
         this.mContext = this.getApplicationContext();
         this.couponDescriptorManager = couponDescriptorManager.getInstance(mContext);
 
+
+        scaleUp = AnimationUtils.loadAnimation(mContext,R.anim.scale_up);
+        scaleDown = AnimationUtils.loadAnimation(mContext,R.anim.scale_down);
 
         //Init Toolbar
         initToolbar();
@@ -92,7 +90,7 @@ public class AddCouponActivity extends AppCompatActivity {
     }
 
     private void initToolbar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.addCouponToolBar);
+        Toolbar toolbar = findViewById(R.id.addCouponToolBar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -116,34 +114,41 @@ public class AddCouponActivity extends AppCompatActivity {
         //endregion
 
         // Add coupon button listener
-        this.btnAddCoupon.setOnClickListener(new View.OnClickListener() {
+        this.btnAddCoupon.setOnTouchListener(new View.OnTouchListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onClick(View v) {
-                // If invalid insertion -> show error message
-                if(invalidInsertion()) {
-                    Alert.showInformation(AddCouponActivity.this, getString(R.string.title_error), getString(R.string.msg_errore_parametri));
-                }else
-                {
-                    //Get value from view
-                    getDataFromView();
+            public boolean onTouch(View v, MotionEvent event) {
 
-                    // Create and Add new coupon
-                    couponDescriptorManager.addCouponToHead(createNewCoupon());
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    btnAddCoupon.startAnimation(scaleUp);
+                    // If invalid insertion -> show error message
+                    if(invalidInsertion()) {
+                        Alert.showInformation(AddCouponActivity.this, getString(R.string.title_error), getString(R.string.msg_errore_parametri));
+                    }else
+                    {
+                        //Get value from view
+                        getDataFromView();
 
-                    //region Show message and return on MainActivity
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddCouponActivity.this);
-                    builder.setTitle(R.string.information);
-                    builder.setMessage(R.string.coupon_aggiunto);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            startActivity(new Intent(context, MainActivity.class));
-                        }
-                    });
-                    builder.create().show();
-                    //endregion
+                        // Create and Add new coupon
+                        couponDescriptorManager.addCouponToHead(createNewCoupon());
+
+                        //region Show message and return on MainActivity
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AddCouponActivity.this);
+                        builder.setTitle(R.string.information);
+                        builder.setMessage(R.string.coupon_aggiunto);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                startActivity(new Intent(context, MainActivity.class));
+                            }
+                        });
+                        builder.create().show();
+                        //endregion
+                    }
+                }else if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    btnAddCoupon.startAnimation(scaleDown);
                 }
+                return true;
             }
         });
 
@@ -163,21 +168,21 @@ public class AddCouponActivity extends AppCompatActivity {
         //Listener for date
         switchDate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked == true) {
+                if (isChecked) {
                     cwDate.setVisibility(View.VISIBLE);
                 } else {
                     cwDate.setVisibility(View.INVISIBLE);
                 }
             }
         });
+
         //Listener for calendar view
         cwDate.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSelectedDayChange(CalendarView arg0, int year, int month, int date) {
-                insertedDate =  LocalDate.of(year,month,date);
-
+                insertedDate =  LocalDate.of(year,month+1,date);
             }
         });
     }
@@ -207,33 +212,27 @@ public class AddCouponActivity extends AppCompatActivity {
     Return true if date is checked, false otherwise
      */
     private boolean enterExpiredDate(){
-       return  switchDate.isChecked() == true ? true : false ;
+       return  switchDate.isChecked();
     }
+
 
     /*
      Return CouponType
      */
     private CouponType getTypeCoupon(){
-        if(rbBarcode.isChecked() == true)
-        {
+        if(rbBarcode.isChecked())
             return CouponType.Barcode;
-        }else if(rbQRCode.isChecked() == true){
+        else if(rbQRCode.isChecked())
             return CouponType.QRCode;
-        }else {
+        else
             return null;
-        }
     }
 
     /*
      Check if any required parameters are missing
      */
     private boolean invalidInsertion(){
-       if (Utils.isEmptyEditText(txtName) || Utils.isEmptyEditText(txtCode) || getTypeCoupon() == null){
-            return true;
-        }
-       else {
-           return false;
-       }
+        return Utils.isEmptyEditText(txtName) || Utils.isEmptyEditText(txtCode) || getTypeCoupon() == null;
     }
 
     /*
@@ -246,16 +245,13 @@ public class AddCouponActivity extends AppCompatActivity {
         this.description = txtDescription.getText().toString();
         this.type = getTypeCoupon();
         this.code = txtCode.getText().toString();
-        if(reusable.isChecked()){
+        if(reusable.isChecked())
             isReusable = true;
-        }
-        if(!enterExpiredDate()){
-            this.expiredDate = "";
-        }else
-        {
-            this.expiredDate = Utils.convertInITAFormat(insertedDate);
 
-        }
+        if(!enterExpiredDate())
+            this.expiredDate = "";
+        else
+            this.expiredDate = insertedDate.toString();
     }
     /*
     Method that allow to create a new coupon

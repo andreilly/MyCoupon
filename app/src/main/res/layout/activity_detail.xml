@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_dynamic_neutral_variant90"
+    android:background="@drawable/bg_detail"
     tools:context=".activity.DetailActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -19,13 +19,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:layout_width="420dp"
-        android:layout_height="732dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="413dp"
+        android:layout_height="790dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,8 +34,6 @@
                 android:id="@+id/couponImageList"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="50dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toTopOf="@+id/divider"
@@ -54,12 +50,13 @@
                 android:id="@+id/cardViewName"
                 android:layout_width="180dp"
                 android:layout_height="78dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="50dp"
+                android:layout_marginEnd="5dp"
                 android:background="@color/amber_400"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintEnd_toStartOf="@+id/cardView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider">
 
@@ -136,13 +133,14 @@
                 android:id="@+id/cardView"
                 android:layout_width="180dp"
                 android:layout_height="78dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="50dp"
+                android:layout_marginEnd="10dp"
                 android:background="@color/amber_400"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.9"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cardViewName"
                 app:layout_constraintTop_toBottomOf="@+id/divider">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -172,16 +170,18 @@
                         tools:layout_editor_absoluteX="131dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewDate"
                 android:layout_width="180dp"
                 android:layout_height="78dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="50dp"
+                android:layout_marginEnd="5dp"
                 android:background="@color/amber_400"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintEnd_toStartOf="@+id/cardViewReusable"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardViewDescription">
 
@@ -212,45 +212,48 @@
                         tools:layout_editor_absoluteX="131dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewReusable"
-            android:layout_width="180dp"
-            android:layout_height="78dp"
-            android:layout_marginTop="50dp"
-            android:background="@color/amber_400"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.9"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewDescription">
+                android:id="@+id/cardViewReusable"
+                android:layout_width="180dp"
+                android:layout_height="78dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/amber_400"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cardViewDate"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewDescription">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-
-                    android:id="@+id/textView16"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:gravity="bottom|center_horizontal"
-                    android:text="Riutilizzabile"
-                    android:textColor="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-                <ImageView
-                    android:id="@+id/imageReusable"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent">
 
-                    android:gravity="bottom|center_horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16"
-                    tools:layout_editor_absoluteX="131dp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    <TextView
+
+                        android:id="@+id/textView16"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:gravity="bottom|center_horizontal"
+                        android:text="Riutilizzabile"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageReusable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="bottom|center_horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView16"
+                        tools:layout_editor_absoluteX="131dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
             <View
                 android:id="@+id/divider"
@@ -258,10 +261,28 @@
                 android:layout_height="2dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="50dp"
                 android:background="@color/black"
+                app:layout_constraintBottom_toTopOf="@+id/cardViewName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/couponImageList" />
+
+            <Button
+                android:id="@+id/btnUsed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="100dp"
+                android:background="#AFAFAF"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Segna come utilizzato"
+                android:textColor="#000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewDate" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

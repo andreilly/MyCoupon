@@ -23,7 +23,6 @@ public class CouponDescriptorManager {
 
     private CouponDescriptorManager (Context context) {
         this.context = context;
-        // Recupero il riferimento
         this.db = Room.databaseBuilder(context, AppDatabase.class, "coupons-database").allowMainThreadQueries().build();
         this.couponDao = this.db.couponDao();
     }
@@ -38,12 +37,19 @@ public class CouponDescriptorManager {
             instance = new CouponDescriptorManager(context);
         return instance;
     }
+    /*
+    `Method allow you to insert a new coupon
+    `*/
     public void addCoupon(CouponDescriptor coupon) {
         this.couponDao.insertAll(coupon);
     }
+
     public void addCouponToHead(CouponDescriptor coupon){
         this.addCoupon(coupon);
     }
+    /*
+  ` Method that allow you to remove coupon
+    */
     public void removeCoupon(CouponDescriptor coupon){
         this.couponDao.delete(coupon);
     }
@@ -53,6 +59,15 @@ public class CouponDescriptorManager {
     }
     public LiveData<List<CouponDescriptor>> getExpiringCouponLiveDataList(){
         return this.couponDao.getExpiringLiveData();
+    }
+    public LiveData<List<CouponDescriptor>> getUsedCouponLiveDataList(){
+        return this.couponDao.getUsedLiveDate();
+    }
+    /*
+    Method that allow you to update isUsed field of coupon
+     */
+    public int updateUsed (Integer idCoupon){
+        return this.couponDao.updateUsed(idCoupon);
     }
 
 }

@@ -13,12 +13,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.illica.mycoupon.R;
-import com.illica.mycoupon.fragment.ActiveListFragment;
+import com.illica.mycoupon.fragment.ListCouponsFragment;
 
 public class ListActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private Context mContext = null;
     private String typeView;
+    private Integer pos;
     SearchView searchView;
     public static final String CouponObject = "CouponObject";
     public static final String Position = "Position";
@@ -37,10 +38,11 @@ public class ListActivity extends AppCompatActivity {
             Bundle bundle = this.getIntent().getExtras();
             if (bundle != null){
                 typeView = bundle.getString(MainActivity.TypeList);
+                pos = bundle.getInt(ListActivity.Position);
                 //Set title of the actionBar
                 actionBar.setTitle(typeView);
             }
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new ActiveListFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new ListCouponsFragment()).commit();
         }
 
     }
@@ -66,12 +68,22 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
-    /*
-     Getter for typeView
+    /**
+     * Getter for TypeView
+     * @return string
      */
     public String getTypeView(){
         return typeView;
     }
+
+    /**
+     * Getter for Pos
+     * @return integer
+     */
+    public Integer getPos(){
+        return pos;
+    }
+
 
 
     /*
