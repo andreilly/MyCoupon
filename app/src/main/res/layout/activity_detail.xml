@@ -122,7 +122,6 @@
                         android:layout_height="wrap_content"
 
                         android:gravity="bottom|center_horizontal"
-                        android:text="Fragole 2 X 1"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView12"
                         tools:layout_editor_absoluteX="131dp" />
@@ -277,7 +276,7 @@
                 android:background="#AFAFAF"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:text="Segna come utilizzato"
+                android:text="Etichetta come utilizzato"
                 android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
